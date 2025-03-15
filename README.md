@@ -39,28 +39,48 @@ There are three packages split into libs and apps:
 Note that neither of these definitions are enforced by anything in Python or `uv`.
 
 ```bash
-> tree
-.
-├── pyproject.toml              # root pyproject
+> tree .
+├── README.md
+├── pyproject.toml
 ├── uv.lock
+├── apps
+│   ├── domain
+│   │   └── server
+│   │       ├── Dockerfile
+│   │       ├── README.md
+│   │       ├── pyproject.toml
+│   │       ├── src
+│   │       │   └── server
+│   │       │       ├── __init__.py
+│   │       │       └── run.py
+│   │       └── tests
+│   │           ├── __pycache__
+│   │           │   └── test_server.cpython-311-pytest-6.2.5.pyc
+│   │           └── test_server.py
+│   └── platform
+│       └── mycli
+│           ├── README.md
+│           ├── pyproject.toml
+│           ├── src
+│           │   └── mycli
+│           │       ├── __init__.py
+│           │       └── cli.py
+│           └── tests
+│               ├── __pycache__
+│               │   └── test_mycli.cpython-311-pytest-6.2.5.pyc
+│               └── test_mycli.py
 ├── libs
-│   └── greeter
-│       ├── pyproject.toml      # package dependencies here
-│       └── postmodern          # all packages are namespaced
-│           └── greeter
-│               └── __init__.py
-└── apps
-    ├── server
-    │   ├── pyproject.toml      # this one depends on libs/greeter
-    │   ├── Dockerfile          # and it gets a Dockerfile
-    │   └── postmodern
-    │       └── server
-    │           └── __init__.py
-    └── mycli
-        ├── pyproject.toml      # this one has a cli entrypoint
-        └── postmodern
-            └── mycli
-                └── __init__.py
+│   └── greeter
+│       ├── README.md
+│       ├── pyproject.toml
+│       ├── src
+│       │   └── greeter
+│       │       ├── __init__.py
+│       │       └── py.typed
+│       └── tests
+│           ├── __pycache__
+│           │   └── test_greeter.cpython-311-pytest-6.2.5.pyc
+│           └── test_greeter.py
 ```
 
 ## Docker
@@ -68,12 +88,12 @@ The Dockerfile is at [apps/server/Dockerfile](apps/server/Dockerfile).
 
 Build the Docker image from the workspace root, so that it has access to all libraries:
 ```bash
-docker build --tag=postmodern-server -f apps/server/Dockerfile .
+docker build --tag=server -f apps/server/Dockerfile .
 ```
 
 And run it:
 ```bash
-docker run --rm -it postmodern-server
+docker run --rm -it server
 ```
 
 ## Syncing
